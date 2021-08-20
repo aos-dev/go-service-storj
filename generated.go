@@ -4,6 +4,7 @@ package storj
 import (
 	"context"
 	"io"
+	"net/http"
 	"time"
 
 	"github.com/beyondstorage/go-storage/v4/pkg/httpclient"
@@ -15,6 +16,7 @@ var _ Storager
 var _ services.ServiceError
 var _ httpclient.Options
 var _ time.Duration
+var _ http.Request
 
 // Type is the type for storj
 const Type = "storj"
