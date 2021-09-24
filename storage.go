@@ -104,8 +104,13 @@ func (s *Storage) write(ctx context.Context, path string, r io.Reader, size int6
 		return 0, err
 	}
 	if r == nil {
-		r = strings.NewReader("")
+		if size == 0 {
+			r = strings.NewReader("")
+		} else {
+			return 0, services.ServiceError{}
+		}
 	}
+
 	n, err = io.Copy(upload, r)
 	if err != nil {
 		return 0, err
