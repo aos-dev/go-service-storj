@@ -3,6 +3,7 @@ package storj
 import (
 	"context"
 	"io"
+	"strings"
 
 	"github.com/beyondstorage/go-storage/v4/services"
 	. "github.com/beyondstorage/go-storage/v4/types"
@@ -101,6 +102,9 @@ func (s *Storage) write(ctx context.Context, path string, r io.Reader, size int6
 	upload, err := s.project.UploadObject(ctx, s.name, rp, nil)
 	if err != nil {
 		return 0, err
+	}
+	if r == nil {
+		r = strings.NewReader("")
 	}
 	n, err = io.Copy(upload, r)
 	if err != nil {
