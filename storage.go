@@ -111,7 +111,7 @@ func (s *Storage) write(ctx context.Context, path string, r io.Reader, size int6
 		}
 	}
 
-	n, err = io.Copy(upload, r)
+	n, err = io.CopyN(upload, r, size)
 	if err != nil {
 		return 0, err
 	}
