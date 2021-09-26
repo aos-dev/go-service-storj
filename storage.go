@@ -3,6 +3,7 @@ package storj
 import (
 	"context"
 	"io"
+	"strings"
 
 	"github.com/beyondstorage/go-storage/v4/services"
 	. "github.com/beyondstorage/go-storage/v4/types"
@@ -27,17 +28,21 @@ func (s *Storage) delete(ctx context.Context, path string, opt pairStorageDelete
 	rp := s.getAbsPath(path)
 
 	_, err = s.project.DeleteObject(ctx, s.name, rp)
-	return
+	return err
 }
 
 func (s *Storage) list(ctx context.Context, path string, opt pairStorageList) (oi *ObjectIterator, err error) {
+	rp := s.getAbsPath(path)
 	if !opt.HasListMode || opt.ListMode.IsDir() {
 		nextFn := func(ctx context.Context, page *ObjectPage) error {
-			options := uplink.ListObjectsOptions{System: true}
+			options := uplink.ListObjectsOptions{Prefix: rp, System: true}
 			dirObject := s.project.ListObjects(ctx, s.name, &options)
 			for dirObject.Next() {
+				if dirObject.Item().Key == rp {
+					continue
+				}
 				o := NewObject(s, true)
-				o.Path = dirObject.Item().Key
+				o.Path = dirObject.Item().Key[len(rp):]
 				if dirObject.Item().IsPrefix {
 					o.Mode |= ModeDir
 				} else {
@@ -49,7 +54,7 @@ func (s *Storage) list(ctx context.Context, path string, opt pairStorageList) (o
 			return IterateDone
 		}
 		oi = NewObjectIterator(ctx, nextFn, nil)
-		return
+		return oi, err
 	} else {
 		return nil, services.ListModeInvalidError{Actual: opt.ListMode}
 	}
@@ -66,20 +71,20 @@ func (s *Storage) read(ctx context.Context, path string, w io.Writer, opt pairSt
 	rp := s.getAbsPath(path)
 	download, err := s.project.DownloadObject(ctx, s.name, rp, nil)
 	if err != nil {
-		return 0, err
+		return 0, services.ErrObjectNotExist
 	}
 	n, err = io.Copy(w, download)
-	return
+	return n, err
 }
 
 func (s *Storage) stat(ctx context.Context, path string, opt pairStorageStat) (o *Object, err error) {
 	rp := s.getAbsPath(path)
 	object, err := s.project.StatObject(ctx, s.name, rp)
 	if err != nil {
-		return nil, err
+		return nil, services.ErrObjectNotExist
 	}
 	o = NewObject(s, true)
-	o.Path = object.Key
+	o.Path = path
 	if object.IsPrefix {
 		o.Mode |= ModeDir
 	} else {
@@ -98,7 +103,15 @@ func (s *Storage) write(ctx context.Context, path string, r io.Reader, size int6
 	if err != nil {
 		return 0, err
 	}
-	n, err = io.Copy(upload, r)
+	if r == nil {
+		if size == 0 {
+			r = strings.NewReader("")
+		} else {
+			return 0, services.ServiceError{}
+		}
+	}
+
+	n, err = io.CopyN(upload, r, size)
 	if err != nil {
 		return 0, err
 	}
@@ -106,5 +119,5 @@ func (s *Storage) write(ctx context.Context, path string, r io.Reader, size int6
 	if err != nil {
 		return 0, err
 	}
-	return
+	return n, err
 }
