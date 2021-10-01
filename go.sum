@@ -19,9 +19,8 @@ github.com/anmitsu/go-shlex v0.0.0-20161002113705-648efa622239/go.mod h1:2FmKhYU
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
 github.com/beyondstorage/go-credential v0.0.0-20210918043243-9d146b959702 h1:Ys3pmvg46a5A0TM650rYXPuVtSh1MRse+SNZ/Xoq/KQ=
 github.com/beyondstorage/go-credential v0.0.0-20210918043243-9d146b959702/go.mod h1:A7WYzKKk479gERCs5/5jWi0kNN24bqeMjD8IJik4JBA=
-github.com/beyondstorage/go-integration-test/v4 v4.5.0 h1:PMrB+aWd6yNwlrJSJOjqNLJtujsKderoSkG9/QOEQr0=
-github.com/beyondstorage/go-integration-test/v4 v4.5.0/go.mod h1:o0pHhyaRR/OO6QxnRqWW3aFjTycBZjoKSdHKN/JZRjo=
-github.com/beyondstorage/go-storage/v4 v4.7.0/go.mod h1:mc9VzBImjXDg1/1sLfta2MJH79elfM6m47ZZvZ+q/Uw=
+github.com/beyondstorage/go-integration-test/v4 v4.6.0 h1:CAFx/d7KiAzDeaqNmRgbnp2nnLBmAMhh3D8+axcne5o=
+github.com/beyondstorage/go-integration-test/v4 v4.6.0/go.mod h1:VvCSws4hOPKCyLlGhRDMjOh6FIcRbGG06ATNESLB7Ek=
 github.com/beyondstorage/go-storage/v4 v4.8.0 h1:f0vC20h0deCrsid/nIApKGFw37Fv4VslpQBFtbNRJNU=
 github.com/beyondstorage/go-storage/v4 v4.8.0/go.mod h1:zknx9z1WOSs0ow8eg8iuTgvMCqNnNJWxB2S9cAvhitM=
 github.com/bradfitz/go-smtpd v0.0.0-20170404230938-deb6d6237625/go.mod h1:HYsPBTaaSFSlLx/70C2HPIMNZpVV8+vt/A+FMnYP11g=
@@ -146,7 +145,6 @@ github.com/onsi/gomega v1.7.1/go.mod h1:XdKZgCCFLUoM/7CFJVPcG8C1xQ1AJ0vpAezJrB7J
 github.com/onsi/gomega v1.10.1/go.mod h1:iN09h71vgCQne3DLsj+A5owkum+a2tYe+TOCB1ybHNo=
 github.com/onsi/gomega v1.13.0/go.mod h1:lRk9szgn8TxENtWd0Tp4c3wjlRfMTMH27I+3Je41yGY=
 github.com/openzipkin/zipkin-go v0.1.1/go.mod h1:NtoC/o8u3JlF1lSlyPNswIbeQH9bJTmOf0Erfk+hxe8=
-github.com/pelletier/go-toml v1.9.3/go.mod h1:u1nR/EPcESfeI/szUZKdtJ0xRNbUoANCkoOuaOx1Y+c=
 github.com/pelletier/go-toml v1.9.4 h1:tjENF6MfZAg8e4ZmZTeWaWiT2vXtsoO6+iuOjFhECwM=
 github.com/pelletier/go-toml v1.9.4/go.mod h1:u1nR/EPcESfeI/szUZKdtJ0xRNbUoANCkoOuaOx1Y+c=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
