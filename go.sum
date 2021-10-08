@@ -377,5 +377,5 @@ storj.io/common v0.0.0-20210916151047-6aaeb34bb916 h1:G+EqGYEbW4lUBSkdt2uQE2BRc2
 storj.io/common v0.0.0-20210916151047-6aaeb34bb916/go.mod h1:objobGrIWQwhmTSpSm6Y7ykd40wZjB7CezNfic5YLKg=
 storj.io/drpc v0.0.26 h1:T6jJzjby7QUa/2XHR1qMxTCENpDHEw4/o+kfDfZQqQI=
 storj.io/drpc v0.0.26/go.mod h1:ofQUDPQbbIymRDKE0tms48k8bLP5Y+dsI9CbXGv3gko=
-storj.io/uplink v1.6.0 h1:jikWj7Ca8hOR1kiuuP3GapdYCQG2bFngfG9AJX7/reE=
-storj.io/uplink v1.6.0/go.mod h1:zqj/LFDxa6RMaSRSHOmukg3mMgesOry0iHSjNldDMGo=
+storj.io/uplink v1.7.0 h1:ipWEqaauebXBB1IRFoQm7KQdH3Pq3V69FKf6faWJylo=
+storj.io/uplink v1.7.0/go.mod h1:zqj/LFDxa6RMaSRSHOmukg3mMgesOry0iHSjNldDMGo=
