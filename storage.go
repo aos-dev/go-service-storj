@@ -74,6 +74,7 @@ func (s *Storage) read(ctx context.Context, path string, w io.Writer, opt pairSt
 	rp := s.getAbsPath(path)
 	downloadOptions := &uplink.DownloadOptions{
 		Offset: 0,
+		Length: -1,
 	}
 	if opt.HasOffset {
 		downloadOptions.Offset = opt.Offset
