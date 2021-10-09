@@ -3,7 +3,6 @@ package storj
 import (
 	"context"
 	"io"
-	"io/ioutil"
 	"strings"
 
 	"storj.io/uplink"
@@ -87,7 +86,9 @@ func (s *Storage) read(ctx context.Context, path string, w io.Writer, opt pairSt
 		return 0, services.ErrObjectNotExist
 	}
 	defer download.Close()
-	rc := ioutil.NopCloser(download)
+
+	var rc io.ReadCloser
+	rc = download
 	if opt.HasIoCallback {
 		rc = iowrap.CallbackReadCloser(rc, opt.IoCallback)
 	}
