@@ -5,9 +5,11 @@ import (
 	"io"
 	"strings"
 
+	"storj.io/uplink"
+
+	"github.com/beyondstorage/go-storage/v4/pkg/iowrap"
 	"github.com/beyondstorage/go-storage/v4/services"
 	. "github.com/beyondstorage/go-storage/v4/types"
-	"storj.io/uplink"
 )
 
 func (s *Storage) create(path string, opt pairStorageCreate) (o *Object) {
@@ -69,11 +71,28 @@ func (s *Storage) metadata(opt pairStorageMetadata) (meta *StorageMeta) {
 
 func (s *Storage) read(ctx context.Context, path string, w io.Writer, opt pairStorageRead) (n int64, err error) {
 	rp := s.getAbsPath(path)
-	download, err := s.project.DownloadObject(ctx, s.name, rp, nil)
+	downloadOptions := &uplink.DownloadOptions{
+		Offset: 0,
+		Length: -1,
+	}
+	if opt.HasOffset {
+		downloadOptions.Offset = opt.Offset
+	}
+	if opt.HasSize {
+		downloadOptions.Length = opt.Size
+	}
+	download, err := s.project.DownloadObject(ctx, s.name, rp, downloadOptions)
 	if err != nil {
 		return 0, services.ErrObjectNotExist
 	}
-	n, err = io.Copy(w, download)
+	defer download.Close()
+
+	var rc io.ReadCloser
+	rc = download
+	if opt.HasIoCallback {
+		rc = iowrap.CallbackReadCloser(rc, opt.IoCallback)
+	}
+	n, err = io.Copy(w, rc)
 	return n, err
 }
 
@@ -98,6 +117,10 @@ func (s *Storage) stat(ctx context.Context, path string, opt pairStorageStat) (o
 
 func (s *Storage) write(ctx context.Context, path string, r io.Reader, size int64, opt pairStorageWrite) (n int64, err error) {
 	rp := s.getAbsPath(path)
+
+	if opt.HasIoCallback {
+		r = iowrap.CallbackReader(r, opt.IoCallback)
+	}
 
 	upload, err := s.project.UploadObject(ctx, s.name, rp, nil)
 	if err != nil {
